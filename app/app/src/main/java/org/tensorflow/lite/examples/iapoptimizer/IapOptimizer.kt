@@ -78,6 +78,9 @@ class IapOptimizer(private val context: Context) {
 
     val metaExecutor = MetadataExtractor(buffer)
 
+    // Get associated preprocessing metadata JSON file from the TFLite file.
+    // This is not yet supported on TFLite's iOS library, 
+    // consider bundling this file separately instead.
     val inputStream = metaExecutor.getAssociatedFile("preprocess.json")
     val inputAsString = inputStream.bufferedReader().use { it.readText() }
 
