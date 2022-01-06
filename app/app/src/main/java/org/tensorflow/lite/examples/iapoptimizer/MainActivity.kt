@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
   private var predictedTextView: TextView? = null
   private var iapOptimizer = IapOptimizer(this)
   private var predictionResult  = ""
+  private var sessionId = "1"
 
   @SuppressLint("ClickableViewAccessibility")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     // Obtain the FirebaseAnalytics instance.
     firebaseAnalytics = Firebase.analytics
+    firebaseAnalytics.setUserId("player1")
 
     predictButton = findViewById(R.id.predict_button)
     acceptButton = findViewById(R.id.accept_button)
@@ -53,16 +55,20 @@ class MainActivity : AppCompatActivity() {
     predictedTextView?.text = "Click predict to see prediction result"
 
     predictButton?.setOnClickListener {
-      firebaseAnalytics.logEvent("generate_prediction"){}
-
       val result = iapOptimizer.predict()
       predictedTextView?.text = "The best power-up to suggest: ${result}"
       predictionResult = result
+
+      firebaseAnalytics.logEvent("offer_iap"){
+        param("offer_type", predictionResult)
+        param("offer_id", sessionId)
+      }
     }
 
     acceptButton?.setOnClickListener {
-      firebaseAnalytics.logEvent("accept_prediction") {
-        param("prediction", predictionResult)
+      firebaseAnalytics.logEvent("offer_accepted") {
+        param("offer_type", predictionResult)
+        param("offer_id", sessionId)
       }
     }
 
