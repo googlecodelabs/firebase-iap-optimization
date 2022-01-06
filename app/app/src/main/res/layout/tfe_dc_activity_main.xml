@@ -15,12 +15,12 @@
  limitations under the License.
 -->
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:foregroundTint="#FAF8F8"
     tools:context=".MainActivity">
 
 
@@ -28,8 +28,23 @@
       android:id="@+id/predict_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="340dp"
+      android:layout_marginBottom="372dp"
+      android:backgroundTint="#3F51B5"
+      android:foregroundTint="#FFFFFF"
       android:text="@string/tfe_dc_predict_button_text"
+      android:textColor="#FBFBFB"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent" />
+
+  <Button
+      android:id="@+id/accept_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="304dp"
+      android:backgroundTint="#ECECEC"
+      android:text="@string/tfe_dc_accept_button_text"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintHorizontal_bias="0.498"
       app:layout_constraintLeft_toLeftOf="parent"

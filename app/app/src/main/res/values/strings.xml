@@ -17,4 +17,5 @@
 <resources>
   <string name="tfe_dc_app_name" translatable="false">IAP Optimizer Codelab</string>
   <string name="tfe_dc_predict_button_text" translatable="false">Predict</string>
+  <string name="tfe_dc_accept_button_text" translatable="false">Accept Prediction</string>
 </resources>
