@@ -21,29 +21,55 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
 import com.google.firebase.ml.custom.FirebaseCustomRemoteModel
 
+private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 class MainActivity : AppCompatActivity() {
 
   private var predictButton: Button? = null
+  private var acceptButton: Button? = null
   private var predictedTextView: TextView? = null
   private var iapOptimizer = IapOptimizer(this)
+  private var predictionResult  = ""
+  private var sessionId = "1"
 
   @SuppressLint("ClickableViewAccessibility")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.tfe_dc_activity_main)
 
+    // Obtain the FirebaseAnalytics instance.
+    firebaseAnalytics = Firebase.analytics
+    firebaseAnalytics.setUserId("player1")
+
     predictButton = findViewById(R.id.predict_button)
+    acceptButton = findViewById(R.id.accept_button)
     predictedTextView = findViewById(R.id.predicted_text)
     predictedTextView?.text = "Click predict to see prediction result"
 
     predictButton?.setOnClickListener {
       val result = iapOptimizer.predict()
-      predictedTextView?.text = result
+      predictedTextView?.text = "The best power-up to suggest: ${result}"
+      predictionResult = result
+
+      firebaseAnalytics.logEvent("offer_iap"){
+        param("offer_type", predictionResult)
+        param("offer_id", sessionId)
+      }
+    }
+
+    acceptButton?.setOnClickListener {
+      firebaseAnalytics.logEvent("offer_accepted") {
+        param("offer_type", predictionResult)
+        param("offer_id", sessionId)
+      }
     }
 
     downloadModel("optimizer")

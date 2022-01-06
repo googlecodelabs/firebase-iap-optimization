@@ -18,6 +18,7 @@ import android.content.Context
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks.call
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.json.JSONObject
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.metadata.MetadataExtractor
@@ -41,6 +42,7 @@ class IapOptimizer(private val context: Context) {
 
   private var interpreter: Interpreter? = null
   private var preprocessingSummary : JSONObject? = null
+
   var isInitialized = false
     private set
 
@@ -149,7 +151,7 @@ class IapOptimizer(private val context: Context) {
 
     val maxIndex = output.indexOf(output.max()!!)
 
-    return "The best power-up to suggest: ${mapping[maxIndex] as String}"
+    return mapping[maxIndex] as String
   }
 
   fun close() {
